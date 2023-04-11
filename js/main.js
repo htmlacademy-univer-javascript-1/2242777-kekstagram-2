@@ -30,7 +30,7 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)]
+const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
 const createComment = () => ({
   id: getRandomInt(0, 99),
@@ -51,7 +51,7 @@ similarTopics.forEach((item, index) => {
   item.id = index + 1;
   item.url = `photos/${index + 1}.jpg`;
   if (index>0) {
-    item.comments.id = similarTopics[index-1].comments.id + getRandomNum(0, 5);
+    item.comments.id = similarTopics[index-1].comments.id + getRandomInt(0, 5);
   }
 });
 
