@@ -27,6 +27,7 @@ const NAMES = [
   'Аркадий',
   'Миягу',
   'Энайкин',
+  'Совунья'
 ];
 
 const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)]
