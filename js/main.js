@@ -2,4 +2,6 @@
 
 
 
-import {generatePhotoDescription} from'./data.js'
+import {generatePhotoDescription} from'./data.js' ;
+
+console.log(generatePhotoDescription());

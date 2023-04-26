@@ -21,31 +21,23 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
+const getRandomElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
 
 const createComment = () => ({
   id: getRandomInt(0, 99),
   avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-  message: getRandomArrayElement(MESSAGES),
-  name: getRandomArrayElement(NAMES),
+  message: getRandomElement(MESSAGES),
+  name: getRandomElement(NAMES),
 });
 
-const createTopic = () => ({
-  id: 'будет изменено' ,
-  url: 'будет изменено',
-  description: 'фотография 9х12, с наивной подписью на память',
-  likes: getRandomInt(15, 200),
-  comments: createComment(),
-});
-const similarTopics = Array.from({length: TOPIC_COUNT}, createTopic);
-similarTopics.forEach((item, index) => {
-  item.id = index + 1;
-  item.url = `photos/${index + 1}.jpg`;
-  if (index>0) {
-    item.comments.id = similarTopics[index-1].comments.id + getRandomInt(0, 5);
+const generatePhotoDescription = () => ({
+  return :{
+    id: getRandomInt(1,25),
+    url: `photos/${i}.jpg`,
+    description: 'Хэштэг бьюти блог',
+    likes: getRandomInt(15,200),
+    comments:getRandomElement(MESSAGES),
   }
 });
 
-console.log(similarTopics);
-
-export {similarTopics};
+export {generatePhotoDescription};
