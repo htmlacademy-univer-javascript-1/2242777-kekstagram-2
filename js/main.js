@@ -2,4 +2,4 @@
 
 
 
-import {similarTopics} from'./data.js'
+import {generatePhotoDescription} from'./data.js'
