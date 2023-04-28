@@ -21,7 +21,7 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
+const getRandomElement = (arr) => arr[getRandomInt(1, arr.length - 1)];
 
 const generateId = randomUniqNumber(1, 25);
 const generatePhotoId = randomUniqNumber(1, 25);
