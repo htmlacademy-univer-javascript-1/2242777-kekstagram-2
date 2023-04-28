@@ -8,12 +8,12 @@ function getRandomInt (from, to) {
 const randomUniqNumber = (from, to) => {
   const previousValues = [];
   return function () {
-    let currentValue = randomNumber(from, to);
+    let currentValue = getRandomInt(from, to);
     if (previousValues.length >= (to - from + 1)) {
       throw new Error(`Перебраны все числа из диапазона от ${  from  } до ${  to}`);
     }
     while (previousValues.includes(currentValue)) {
-      currentValue = randomNumber(from, to);
+      currentValue = getRandomInt(from, to);
     }
     previousValues.push(currentValue);
     return currentValue;

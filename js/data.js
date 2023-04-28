@@ -1,7 +1,5 @@
 import { getRandomInt, randomUniqNumber } from './util';
 
-const TOPIC_COUNT = 25;
-
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -25,9 +23,9 @@ const NAMES = [
 
 const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
-const generateId = getRandomInt(1, TOPIC_COUNT);
-const generatePhotoId = getRandomInt(1, TOPIC_COUNT);
-const generateCommentId = getRandomInt(1, 300);
+const generateId = randomUniqNumber(1, 25);
+const generatePhotoId = randomUniqNumber(1, 25);
+const generateCommentId = randomUniqNumber(1, 300);
 
 const createComment = function() {
   return {
