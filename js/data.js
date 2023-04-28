@@ -48,4 +48,6 @@ const generatePhotoDescription = () => ({
   }
 });
 
-export {generatePhotoDescription};
+const numberPhotoUsers = Array.from({ length: TOPIC_COUNT }, generatePhotoDescription);
+
+export {numberPhotoUsers};
