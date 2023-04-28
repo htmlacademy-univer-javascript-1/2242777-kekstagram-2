@@ -1,3 +1,5 @@
-import './data.js';
-import './miniatures.js';
-import './bigpicture.js';
+import {createDescriptionOfPhoto} from './data.js';
+import {createThumbnail} from './thumbnails.js';
+
+const descriptionsOfPhotos = Array.from({length: 12}, createDescriptionOfPhoto);
+createThumbnail(descriptionsOfPhotos);

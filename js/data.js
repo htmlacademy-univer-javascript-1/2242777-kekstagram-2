@@ -1,4 +1,4 @@
-import { getRandomInt } from './util';
+import { getRandomInt, randomUniqNumber } from './util';
 
 const TOPIC_COUNT = 25;
 
@@ -29,25 +29,23 @@ const generateId = getRandomInt(1, TOPIC_COUNT);
 const generatePhotoId = getRandomInt(1, TOPIC_COUNT);
 const generateCommentId = getRandomInt(1, 300);
 
-const createComment = () => ({
-  return :{
-    id: generateCommentId,
+const createComment = function() {
+  return {
+    id: generateCommentId(),
     avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
     message: getRandomElement(MESSAGES),
     name: getRandomElement(NAMES),
-  }
-});
+  };
+};
 
-const generatePhotoDescription = () => ({
-  return :{
+const createDescriptionOfPhoto = function() {
+  return {
     id: generateId(),
     url: `photos/${generatePhotoId()}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
-    likes: getRandomInt(15,200),
-    comments:Array.from({length: getRandomInt(1, 30)}, createComment),
-  }
-});
+    likes: getRandomInt(15, 200),
+    comments: Array.from({length: getRandomInt(1, 30)}, createComment),
+  };
+};
 
-const numberPhotoUsers = Array.from({ length: TOPIC_COUNT }, generatePhotoDescription);
-
-export {numberPhotoUsers,createComment,generatePhotoDescription};
+export {createDescriptionOfPhoto};

@@ -1,66 +1,53 @@
-import { miniaturesList } from './miniatures.js';
-import { createComment } from './data.js';
-import { generatePhotoDescription} from './data.js';
-//окно с фото
-const activeImg = document.querySelector('.big-picture');
+import {isEscapeKey} from './util.js';
 
-const body = document.querySelector('body');
+const bigPicture = document.querySelector('.big-picture');
+const commentTemplate = document.querySelector('#comment').content.querySelector('li');
+const commentsOfPhoto = bigPicture.querySelector('.social__comments');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
+bigPicture.querySelector('.social__comment-count').classList.add('hidden');
+bigPicture.querySelector('.comments-loader').classList.add('hidden');
 
-// рандомные данные,чтобы вставить
-const preview = miniaturesList.querySelector('.picture__img');
-const likes = miniaturesList.querySelector('.picture__likes');
-const comments = miniaturesList.querySelector('.picture__comments');
-const previews = miniaturesList.querySelectorAll('.pictures a');
+const createComment = function(commentInfo) {
+  const commentClone = commentTemplate.cloneNode(true);
+  const profilPhoto = commentClone.querySelector('img');
+  profilPhoto.src = commentInfo.avatar;
+  profilPhoto.alt = commentInfo.name;
+  commentClone.querySelector('p').textContent = commentInfo.message;
+  return commentClone;
+};
 
-// в HTML нашли куда вставлять картинки
-const bigPictireImg = document.querySelector('.big-picture__img img');
-const likesCount = document.querySelector('.likes-count');
-const commentsCount = document.querySelector('.comments-count');
+const openBigPicture = function() {
+  document.body.classList.add('modal-open');
+  bigPicture.classList.remove('hidden');
+};
 
-//Комментарии
-const commentsList = document.querySelector('.social__comments');
-//const avatar = commentsList.children; //работает только для первого,а надо для 2 комментариев
-const avatar = commentsList.querySelectorAll('.social__comment img');
-const signature = document.querySelector('.social__caption');
-const socialText = commentsList.querySelectorAll('.social__text');
-const descriptionUser = generatePhotoDescription();
-const socialCommentsCount = document.querySelector('.social__comment-count');
-const commentsLoader = document.querySelector('.comments-loader');
-
-//цикл для навешивания обработчика кликов и вставлять рандомные данные
-for ( let i = 0; i < previews.length; i++) {
-  const button = previews[i];
-  button.addEventListener('click', (evt) => {
-    evt.preventDefault();
-    activeImg.classList.remove('hidden');
-    socialCommentsCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-    body.classList.add('modal-open');
-    bigPictireImg.src=preview.src;
-    likesCount.textContent = likes.textContent;
-    commentsCount.textContent = comments.textContent;
-    for(let k = 0; i<= avatar.length - 1 ; k++){
-      const commentsUsers = createComment();
-      const element = avatar[k];
-      element.src=commentsUsers.avatar;
-      element.alt=commentsUsers.name;
-    }
-    for(let j = 0; j <= socialText.length - 1 ; j++){
-      const commentsUsers = createComment();
-      const element = socialText[j];
-      element.textContent = commentsUsers.message;
-    }
-    signature.textContent = descriptionUser.description;
+const closeBigPicture = function() {
+  closeButton.addEventListener ('click', () => {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    commentsOfPhoto.innerHTML = '';
   });
-}
 
-const bigPictureCansel = document.querySelector('#picture-cancel');
-bigPictureCansel.addEventListener('click', () => {
-  activeImg.classList.add('hidden');
-});
-document.addEventListener('keydown',(evt) => {
-  if(evt.key==='Escape'){
-    evt.preventDefault();
-    activeImg.classList.add('hidden');
-  }
-});
+  document.addEventListener('keydown', (evt)=> {
+    if (isEscapeKey(evt)) {
+      bigPicture.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      commentsOfPhoto.innerHTML = '';
+    }
+  });
+};
+
+const createBigPhoto = function(thumbnail, likes, comments, description) {
+  bigPicture.querySelector('.big-picture__img img').src = thumbnail.querySelector('img').src;
+  bigPicture.querySelector('.social__caption').textContent = description;
+  bigPicture.querySelector('.likes-count').textContent = likes;
+  bigPicture.querySelector('.comments-count').textContent = thumbnail.querySelector('.picture__comments').textContent;
+  comments.forEach((comment) => {
+    const newComment = createComment(comment);
+    commentsOfPhoto.append(newComment);
+  });
+  openBigPicture();
+  closeBigPicture();
+};
+
+export {createBigPhoto};
