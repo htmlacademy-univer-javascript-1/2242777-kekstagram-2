@@ -1,4 +1,4 @@
-import {generatePhotoDescription} from './data.js';
+
 
 const picturesModule = document.querySelector('.pictures');
 picturesModule.querySelector('.pictures__title').classList.remove('visually-hidden');
