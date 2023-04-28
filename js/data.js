@@ -1,4 +1,4 @@
-import { getRandomInt } from "./util";
+import { getRandomInt } from './util';
 
 const TOPIC_COUNT = 25;
 
