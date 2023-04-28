@@ -44,7 +44,7 @@ const generatePhotoDescription = () => ({
     url: `photos/${generatePhotoId}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
     likes: getRandomInt(15,200),
-    comments:getRandomElement(MESSAGES),
+    comments:Array.from({length: getRandomInt(1, 30)}, createComment),
   }
 });
 
