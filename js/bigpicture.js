@@ -23,7 +23,7 @@ const commentsList = document.querySelector('.social__comments');
 const avatar = commentsList.querySelectorAll('.social__comment img');
 const signature = document.querySelector('.social__caption');
 const socialText = commentsList.querySelectorAll('.social__text');
-const descriptionUser = createDescriptionPhotoUser();
+const descriptionUser = generatePhotoDescription();
 const socialCommentsCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
