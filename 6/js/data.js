@@ -39,7 +39,7 @@ const createComment = function() {
 const createDescriptionOfPhoto = function() {
   return {
     id: generateId(),
-    url: `photos/${generatePhotoId()}.jpg`,
+    url: `./photos/${generatePhotoId()}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
     likes: getRandomInt(15, 200),
     comments: Array.from({length: getRandomInt(1, 30)}, createComment),
