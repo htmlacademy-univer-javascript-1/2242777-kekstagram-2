@@ -1,11 +1,11 @@
-import {createDescriptionOfPhoto} from './data.js';
+import {generatePhotoDescription} from './data.js';
 
 const picturesModule = document.querySelector('.pictures');
 picturesModule.querySelector('.pictures__title').classList.remove('visually-hidden');
 
 const photoThumbnailTemplate = document.querySelector('#picture').content.querySelector('a');
 const photosFragment = document.createDocumentFragment();
-const descriptionsOfPhotos = Array.from({length: 25}, createDescriptionOfPhoto);
+const descriptionsOfPhotos = Array.from({length: 25}, generatePhotoDescription);
 
 descriptionsOfPhotos.forEach((photo) => {
   const thumbnail = photoThumbnailTemplate.cloneNode(true);
