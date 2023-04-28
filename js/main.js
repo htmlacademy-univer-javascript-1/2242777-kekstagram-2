@@ -1,7 +1,7 @@
 
 
 
+import {numberPhotoUsers} from './data.js' ;
 
-import {generatePhotoDescription} from'./data.js' ;
+console.log(numberPhotoUsers);
 
-console.log(generatePhotoDescription());
