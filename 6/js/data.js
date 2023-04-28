@@ -26,7 +26,6 @@ const NAMES = [
 const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
 const generateId = getRandomInt(1,TOPIC_COUNT);
-const generatePhotoId = getRandomInt(1,TOPIC_COUNT);
 const generateCommentId = getRandomInt(1, 300);
 
 const createComment = () => ({
@@ -41,7 +40,7 @@ const createComment = () => ({
 const generatePhotoDescription = () => ({
   return :{
     id: generateId,
-    url: `photos/${generatePhotoId}.jpg`,
+    url: `photos/${getRandomInt(1, 25)}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
     likes: getRandomInt(15,200),
     comments:Array.from({length: getRandomInt(1, 30)}, createComment),
