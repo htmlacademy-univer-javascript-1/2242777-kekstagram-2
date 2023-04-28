@@ -25,8 +25,8 @@ const NAMES = [
 
 const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
-const generateId = getRandomInt(1,25);
-const generatePhotoId = getRandomInt(1, 25);
+const generateId = getRandomInt(1,TOPIC_COUNT);
+const generatePhotoId = getRandomInt(1,TOPIC_COUNT);
 const generateCommentId = getRandomInt(1, 300);
 
 const createComment = () => ({
