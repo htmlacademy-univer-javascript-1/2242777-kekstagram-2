@@ -11,6 +11,8 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
+const DESCRIPTIONS = ['хэштег бьюти блог', 'подпись для лайков', 'котэ'];
+
 const NAMES = [
   'Инокентий',
   'Ибрагим',
@@ -21,20 +23,26 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
+const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
+
+const generateId = getRandomInt(1,25);
+const generatePhotoId = getRandomInt(1, 25);
+const generateCommentId = getRandomInt(1, 300);
 
 const createComment = () => ({
-  id: getRandomInt(0, 99),
-  avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-  message: getRandomElement(MESSAGES),
-  name: getRandomElement(NAMES),
+  return :{
+    id: generateCommentId,
+    avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+    message: getRandomElement(MESSAGES),
+    name: getRandomElement(NAMES),
+  }
 });
 
 const generatePhotoDescription = () => ({
   return :{
-    id: getRandomInt(1,25),
-    url: `photos/${i}.jpg`,
-    description: 'Хэштэг бьюти блог',
+    id: generateId,
+    url: `photos/${generatePhotoId}.jpg`,
+    description: getRandomElement(DESCRIPTIONS),
     likes: getRandomInt(15,200),
     comments:getRandomElement(MESSAGES),
   }

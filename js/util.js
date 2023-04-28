@@ -5,8 +5,6 @@ function getRandomInt (from, to) {
   return Math.floor(result);
 }
 
-function checkStringLength (string, length) {
-  return string.length <= length;
-}
+const checkLength = (checkedString, maxLength) => checkedString.length <= maxLength;
 
 export {getRandomInt};
