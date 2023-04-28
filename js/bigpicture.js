@@ -1,6 +1,6 @@
 import { picturesModule } from "./thumbnails.js";
 import { createComment } from './data.js';
-import { createDescriptionPhotoUser } from './data.js';
+import { generatePhotoDescription} from './data.js';
 //окно с фото
 const activeImg = document.querySelector('.big-picture');
 
@@ -23,7 +23,7 @@ const commentsList = document.querySelector('.social__comments');
 const avatar = commentsList.querySelectorAll('.social__comment img');
 const signature = document.querySelector('.social__caption');
 const socialText = commentsList.querySelectorAll('.social__text');
-const descriptionUser = createDescriptionPhotoUser();
+const descriptionUser = generatePhotoDescription();
 const socialCommentsCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
