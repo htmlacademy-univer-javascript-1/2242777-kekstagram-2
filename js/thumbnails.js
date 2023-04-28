@@ -1,22 +1,20 @@
 
+import { numberPhotoUsers } from './data.js';
 
+const thumbnailFragment = document.createDocumentFragment();
+
+
+//куда добавлять итог
 const picturesModule = document.querySelector('.pictures');
-picturesModule.querySelector('.pictures__title').classList.remove('visually-hidden');
+//шаблон
+const thumbnailsTemplate = document.querySelector('#picture').content;
 
-const photoThumbnailTemplate = document.querySelector('#picture').content.querySelector('a');
-const photosFragment = document.createDocumentFragment();
-const descriptionsOfPhotos = Array.from({length: 25}, generatePhotoDescription);
-
-descriptionsOfPhotos.forEach((photo) => {
-  const thumbnail = photoThumbnailTemplate.cloneNode(true);
-  const numberOfComments = thumbnail.querySelector('.picture__comments');
-  const numberOfLikes = thumbnail.querySelector('.picture__likes');
-  thumbnail.src = photo.url;
-  numberOfComments.textContent = photo.comments.length;
-  numberOfLikes.textContent = photo.likes;
-  photosFragment.append(thumbnail);
+const simularThumbnails = numberPhotoUsers;
+simularThumbnails.forEach(({url, likes, comments})=>{
+  const thumbnails = thumbnailsTemplate.cloneNode(true);
+  thumbnails.querySelector('.picture__img').src = url;
+  thumbnails.querySelector('.picture__likes').textContent=likes;
+  thumbnails.querySelector('.picture__comments').textContent=comments.length;
+  thumbnailsFragment.appendChild(thumbnails);
 });
-
-picturesModule.append(photosFragment);
-
-export{picturesModule};
+picturesModule.appendChild(thumbnailsFragment);
