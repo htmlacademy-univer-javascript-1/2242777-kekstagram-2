@@ -1,4 +1,6 @@
-import { getRandomInt, randomUniqNumber } from './util';
+import { getRandomInt } from './util';
+
+const TOPIC_COUNT = 25;
 
 const MESSAGES = [
   'Всё отлично!',
@@ -21,29 +23,31 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomElement = (arr) => arr[getRandomInt(1, arr.length - 1)];
+const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
-const generateId = randomUniqNumber(1, 25);
-const generatePhotoId = randomUniqNumber(1, 25);
-const generateCommentId = randomUniqNumber(1, 300);
+const generateId = getRandomInt(1,TOPIC_COUNT);
+const generatePhotoId = getRandomInt(1,TOPIC_COUNT);
+const generateCommentId = getRandomInt(1, 300);
 
-const createComment = function() {
-  return {
-    id: generateCommentId(),
+const createComment = () => ({
+  return :{
+    id: generateCommentId,
     avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
     message: getRandomElement(MESSAGES),
     name: getRandomElement(NAMES),
-  };
-};
+  }
+});
 
-const createDescriptionOfPhoto = function() {
-  return {
-    id: generateId(),
-    url: `./photos/${generatePhotoId()}.jpg`,
+const generatePhotoDescription = () => ({
+  return :{
+    id: generateId,
+    url: `./photos/${generatePhotoId}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
-    likes: getRandomInt(15, 200),
-    comments: Array.from({length: getRandomInt(1, 30)}, createComment),
-  };
-};
+    likes: getRandomInt(15,200),
+    comments:Array.from({length: getRandomInt(1, 30)}, createComment),
+  }
+});
 
-export {createDescriptionOfPhoto};
+const numberPhotoUsers = Array.from({ length: TOPIC_COUNT }, generatePhotoDescription);
+
+export {numberPhotoUsers};
