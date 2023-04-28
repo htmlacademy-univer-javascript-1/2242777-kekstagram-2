@@ -1,4 +1,3 @@
-
 import {createBigPhoto} from './bigpicture.js';
 
 const picturesModule = document.querySelector('.pictures');
