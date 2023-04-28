@@ -5,6 +5,23 @@ function getRandomInt (from, to) {
   return Math.floor(result);
 }
 
+const randomUniqNumber = (from, to) => {
+  const previousValues = [];
+  return function () {
+    let currentValue = getRandomInt(from, to);
+    if (previousValues.length >= (to - from + 1)) {
+      throw new Error(`Перебраны все числа из диапазона от ${  from  } до ${  to}`);
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInt(from, to);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+};
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 const checkLength = (checkedString, maxLength) => checkedString.length <= maxLength;
 
-export {getRandomInt};
+export {getRandomInt, randomUniqNumber, isEscapeKey};
