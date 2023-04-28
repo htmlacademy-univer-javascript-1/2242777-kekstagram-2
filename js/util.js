@@ -10,7 +10,7 @@ const randomUniqNumber = (from, to) => {
   return function () {
     let currentValue = getRandomInt(from, to);
     if (previousValues.length >= (to - from + 1)) {
-      throw new Error(`Перебраны все числа из диапазона от ${  from  } до ${  to}`);
+      return null
     }
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomInt(from, to);
