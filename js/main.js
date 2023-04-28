@@ -1,7 +1,7 @@
 
 
 
-import {numberPhotoUsers} from './data.js' ;
-
-console.log(numberPhotoUsers);
+import './data.js';
+import './miniatures.js';
+import './bigpicture.js';
 
