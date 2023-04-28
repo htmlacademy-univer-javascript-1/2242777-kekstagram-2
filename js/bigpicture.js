@@ -1,4 +1,4 @@
-import { picturesModule } from './thumbnails.js';
+import { miniaturesList } from './miniatures.js';
 import { createComment } from './data.js';
 import { generatePhotoDescription} from './data.js';
 //окно с фото
@@ -7,10 +7,10 @@ const activeImg = document.querySelector('.big-picture');
 const body = document.querySelector('body');
 
 // рандомные данные,чтобы вставить
-const preview = picturesModule.querySelector('.picture__img');
-const likes = picturesModule.querySelector('.picture__likes');
-const comments = picturesModule.querySelector('.picture__comments');
-const previews = picturesModule.querySelectorAll('.pictures a');
+const preview = miniaturesList.querySelector('.picture__img');
+const likes = miniaturesList.querySelector('.picture__likes');
+const comments = miniaturesList.querySelector('.picture__comments');
+const previews = miniaturesList.querySelectorAll('.pictures a');
 
 // в HTML нашли куда вставлять картинки
 const bigPictireImg = document.querySelector('.big-picture__img img');
@@ -23,7 +23,7 @@ const commentsList = document.querySelector('.social__comments');
 const avatar = commentsList.querySelectorAll('.social__comment img');
 const signature = document.querySelector('.social__caption');
 const socialText = commentsList.querySelectorAll('.social__text');
-const descriptionUser = generatePhotoDescription();
+const descriptionUser = createDescriptionPhotoUser();
 const socialCommentsCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 
