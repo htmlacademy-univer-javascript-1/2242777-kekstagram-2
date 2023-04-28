@@ -1,22 +1,27 @@
 
-import { numberPhotoUsers } from './data.js';
+import {createBigPhoto} from './bigpicture.js';
 
-const miniaturesFragment = document.createDocumentFragment();
+const picturesModule = document.querySelector('.pictures');
+picturesModule.querySelector('.pictures__title').classList.remove('visually-hidden');
 
+const photoThumbnailTemplate = document.querySelector('#picture').content.querySelector('a');
+const photosFragment = document.createDocumentFragment();
+const createThumbnail = function(descriptions) {
+  descriptions.forEach((photo) => {
+    const thumbnail = photoThumbnailTemplate.cloneNode(true);
+    const numberOfComments = thumbnail.querySelector('.picture__comments');
+    const numberOfLikes = thumbnail.querySelector('.picture__likes');
+    const thumbnailImg = thumbnail.querySelector('img');
+    thumbnailImg.src = photo.url;
+    numberOfComments.textContent = photo.comments.length;
+    numberOfLikes.textContent = photo.likes;
+    photosFragment.append(thumbnail);
+    thumbnailImg.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      createBigPhoto(thumbnail, numberOfLikes.textContent, photo.comments, photo.description);
+    });
+  });
+  picturesModule.append(photosFragment);
+};
 
-//куда добавлять итог
-const miniaturesList = document.querySelector('.pictures');
-//шаблон
-const miniaturesTemplate = document.querySelector('#picture').content;
-
-const simularMiniatures = numberPhotoUsers;
-simularMiniatures.forEach(({url, likes, comments})=>{
-  const miniatures = miniaturesTemplate.cloneNode(true);
-  miniatures.querySelector('.picture__img').src = url;
-  miniatures.querySelector('.picture__likes').textContent=likes;
-  miniatures.querySelector('.picture__comments').textContent=comments.length;
-  miniaturesFragment.appendChild(miniatures);
-});
-miniaturesList.appendChild(miniaturesFragment);
-
-export { miniaturesList };
+export{createThumbnail};
