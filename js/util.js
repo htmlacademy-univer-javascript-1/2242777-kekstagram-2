@@ -1,9 +1,9 @@
-function getRandomInt (from, to) {
+const getRandomInt = (from, to) => {
   const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
   const upper = Math.floor(Math.max(Math.abs(from), Math.abs(to)));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
 const randomUniqNumber = (from, to) => {
   const previousValues = [];
@@ -20,8 +20,10 @@ const randomUniqNumber = (from, to) => {
   };
 };
 
+const getRandomElement = (list) => list[getRandomInt(1, list.length - 1)];
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const checkLength = (checkedString, maxLength) => checkedString.length <= maxLength;
+// const checkLength = (checkedString, maxLength) => checkedString.length <= maxLength;
 
-export {getRandomInt, randomUniqNumber, isEscapeKey};
+export {getRandomInt, randomUniqNumber, isEscapeKey, getRandomElement};

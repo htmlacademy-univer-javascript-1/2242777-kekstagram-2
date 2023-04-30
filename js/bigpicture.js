@@ -3,11 +3,11 @@ import {isEscapeKey} from './util.js';
 const bigPicture = document.querySelector('.big-picture');
 const commentTemplate = document.querySelector('#comment').content.querySelector('li');
 const commentsOfPhoto = bigPicture.querySelector('.social__comments');
-const closeButton = bigPicture.querySelector('.big-picture__cancel');
+const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
 bigPicture.querySelector('.social__comment-count').classList.add('hidden');
 bigPicture.querySelector('.comments-loader').classList.add('hidden');
 
-const createComment = function(commentInfo) {
+const createCommentBigPhoto = (commentInfo) => {
   const commentClone = commentTemplate.cloneNode(true);
   const profilPhoto = commentClone.querySelector('img');
   profilPhoto.src = commentInfo.avatar;
@@ -16,13 +16,13 @@ const createComment = function(commentInfo) {
   return commentClone;
 };
 
-const openBigPicture = function() {
+const openBigPicture = () => {
   document.body.classList.add('modal-open');
   bigPicture.classList.remove('hidden');
 };
 
-const closeBigPicture = function() {
-  closeButton.addEventListener ('click', () => {
+const closeBigPicture = () => {
+  bigPictureCloseButton.addEventListener ('click', () => {
     bigPicture.classList.add('hidden');
     document.body.classList.remove('modal-open');
     commentsOfPhoto.innerHTML = '';
@@ -37,13 +37,13 @@ const closeBigPicture = function() {
   });
 };
 
-const createBigPhoto = function(thumbnail, likes, comments, description) {
+const createBigPhoto = (thumbnail, likes, comments, description) => {
   bigPicture.querySelector('.big-picture__img img').src = thumbnail.querySelector('img').src;
   bigPicture.querySelector('.social__caption').textContent = description;
   bigPicture.querySelector('.likes-count').textContent = likes;
   bigPicture.querySelector('.comments-count').textContent = thumbnail.querySelector('.picture__comments').textContent;
   comments.forEach((comment) => {
-    const newComment = createComment(comment);
+    const newComment = createCommentBigPhoto(comment);
     commentsOfPhoto.append(newComment);
   });
   openBigPicture();

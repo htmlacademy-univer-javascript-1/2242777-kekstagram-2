@@ -1,4 +1,4 @@
-import { getRandomInt, randomUniqNumber } from './util';
+import { getRandomInt, randomUniqNumber, getRandomElement } from './util.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -21,7 +21,7 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomElement = (arr) => arr[getRandomInt(1, arr.length - 1)];
+
 
 const generateId = randomUniqNumber(1, 25);
 const generatePhotoId = randomUniqNumber(1, 25);
@@ -39,7 +39,7 @@ const createComment = function() {
 const createDescriptionOfPhoto = function() {
   return {
     id: generateId(),
-    url: `./photos/${generatePhotoId()}.jpg`,
+    url: `photos/${generatePhotoId()}.jpg`,
     description: getRandomElement(DESCRIPTIONS),
     likes: getRandomInt(15, 200),
     comments: Array.from({length: getRandomInt(1, 30)}, createComment),
