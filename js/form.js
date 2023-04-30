@@ -1,6 +1,11 @@
 import {isEscapeKey} from './util.js';
 import {imgPreview} from './zoom.js';
-import {slider} from './filter.js';
+import {slider, filterEditor} from './filter.js';
+import {sendData} from './server.js';
+
+/*Валидация формы*/
+const re = /^((#[A-Za-zА-Яа-яЁё0-9]{1,19})\s*|)+$$/;
+const MAX_HASHTAG_COUNT = 5;
 
 const formOpenButton = document.querySelector('.img-upload__label');
 const uploadForm = document.querySelector('.img-upload__form');
@@ -9,13 +14,14 @@ const editingForm = uploadForm.querySelector('.img-upload__overlay');
 const hashtags = uploadForm.querySelector('.text__hashtags');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const photoComment = uploadForm.querySelector('.text__description');
+const errorTemplate = document.querySelector('#error').content.querySelector('section');
+const successTemplate = document.querySelector('#success').content.querySelector('section');
+const submitButton = document.querySelector('.img-upload__submit');
 
 const openFormSettings = (evt) => {
   evt.preventDefault();
   document.body.classList.add('modal-open');
   editingForm.classList.remove('hidden');
-  slider.style.display = 'none';
-  document.getElementById('effect-none').checked = true;
 };
 
 const closeEditingForm = () => {
@@ -27,6 +33,8 @@ const closeEditingForm = () => {
   imgPreview.style.transform = 'scale(1)';
   imgPreview.classList = ['img-upload__preview'];
   imgPreview.style.filter = '';
+  document.getElementById('effect-none').checked = true;
+  slider.style.display = 'none';
 };
 
 const addHandlersToCloseForm = () => {
@@ -41,15 +49,68 @@ const addHandlersToCloseForm = () => {
   });
 };
 
-/*Валидация формы*/
-const re = /^((#[A-Za-zА-Яа-яЁё0-9]{1,19})\s*|)+$$/;
-const MAX_COMMENT_LENGTH = 5;
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправляю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const showMessage = (template) => {
+  const message = template.cloneNode(true);
+  const removeErrorMessage = () => {
+    document.body.removeChild(message);
+  };
+
+  const windowRemove = () => {
+    removeErrorMessage();
+    document.removeEventListener('keydown', escRemove);
+  };
+
+  function escRemove(evt) {
+    if (message.parentNode) {
+      if (isEscapeKey(evt)) {
+        window.removeEventListener('click', windowRemove);
+        removeErrorMessage();
+      }}
+  }
+
+  document.body.append(message);
+  window.addEventListener('click', windowRemove, {once: true});
+
+  message.querySelector('div').addEventListener('click', (evt) => {
+    evt.stopPropagation();
+  });
+
+  message.querySelector('.error__button').addEventListener('click', () => {
+    removeErrorMessage();
+    window.removeEventListener('click', windowRemove);
+    document.removeEventListener('keydown', escRemove);
+  });
+
+  document.addEventListener('keydown', escRemove, {once: true});
+  unblockSubmitButton();
+};
+
+const closeSuccesForm = () => {
+  showMessage(successTemplate);
+  closeEditingForm();
+};
+
+const closeErrorForm = () => {
+  editingForm.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  showMessage(errorTemplate);
+};
 
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper__error-text'
-}, true);
+});
 
 const validateHashtagsValue = () => re.test(hashtags.value);
 
@@ -67,17 +128,22 @@ const validateHashtagsSimilar = () => {
 
 const validateHashtagsMax = () => {
   const hashtagsList = hashtags.value.split(' ');
-  return !((hashtagsList.length > MAX_COMMENT_LENGTH));
+  return !((hashtagsList.length > MAX_HASHTAG_COUNT));
 };
 
-const validateForm = () => {
+const setUserFormSubmit = () => {
   pristine.addValidator(hashtags, validateHashtagsValue, 'Неверно введенный хэш-тег');
   pristine.addValidator(hashtags, validateHashtagsSimilar, 'Вижу одинаковые хэш-теги');
   pristine.addValidator(hashtags, validateHashtagsMax, 'Превышен максимальный лимит хэш-тегов');
 
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    pristine.validate();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      const formData = new FormData(evt.target);
+      sendData(closeSuccesForm, closeErrorForm, formData);
+    }
   });
 };
 
@@ -92,7 +158,8 @@ const openForm = () => {
   });
 
   addHandlersToCloseForm();
-  validateForm();
+  setUserFormSubmit();
+  filterEditor();
 };
 
 export {openForm};

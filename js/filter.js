@@ -38,16 +38,16 @@ const filterOptions = (filterName, filterInfo) => {
   });
 };
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
-});
-
 const filterEditor = () => {
+  noUiSlider.create(sliderElement, {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 100,
+    step: 1,
+  });
+  valueElement.value = sliderElement.noUiSlider.get();
   effectButtons.forEach((effectButton) => {
     effectButton.addEventListener('change', () => {
       imgPreview.classList = ['img-upload__preview'];
