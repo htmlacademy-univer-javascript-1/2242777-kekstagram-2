@@ -35,17 +35,14 @@ const closeBigPicture = () => {
       document.body.classList.remove('modal-open');
       commentsOfPhoto.innerHTML = '';
     }
-  },
-  {
-    once: true
-  });
+  }, {once: true});
 };
 
 const createBigPhoto = (thumbnail, likes, comments, description) => {
   bigPicture.querySelector('.big-picture__img img').src = thumbnail.querySelector('img').src;
   bigPicture.querySelector('.social__caption').textContent = description;
   bigPicture.querySelector('.likes-count').textContent = likes;
-  comments.slice(0, 5), forEach ((comment) => {
+  comments.slice(0, 5),forEach ((comment) => {
     const newComment = createCommentBigPhoto(comment);
     commentsOfPhoto.append(newComment);
   });
