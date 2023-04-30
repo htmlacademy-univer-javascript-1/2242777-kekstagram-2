@@ -20,8 +20,10 @@ const randomUniqNumber = (from, to) => {
   };
 };
 
+const getRandomElement = (list) => list[getRandomInt(1, list.length - 1)];
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 // const checkLength = (checkedString, maxLength) => checkedString.length <= maxLength;
 
-export {getRandomInt, randomUniqNumber, isEscapeKey};
+export {getRandomInt, randomUniqNumber, isEscapeKey, getRandomElement};
