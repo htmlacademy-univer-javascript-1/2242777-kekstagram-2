@@ -4,8 +4,8 @@ const bigPicture = document.querySelector('.big-picture');
 const commentTemplate = document.querySelector('#comment').content.querySelector('li');
 const commentsOfPhoto = bigPicture.querySelector('.social__comments');
 const bigPictureCloseButton = bigPicture.querySelector('.big-picture__cancel');
-bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-bigPicture.querySelector('.comments-loader').classList.add('hidden');
+const commentsLoader = document.querySelector('.comments-loader');
+const sumOfComments = document.querySelector('.social__comment-count');
 
 const createCommentBigPhoto = (commentInfo) => {
   const commentClone = commentTemplate.cloneNode(true);
@@ -19,6 +19,7 @@ const createCommentBigPhoto = (commentInfo) => {
 const openBigPicture = () => {
   document.body.classList.add('modal-open');
   bigPicture.classList.remove('hidden');
+  commentsLoader.classList.remove('hidden');
 };
 
 const closeBigPicture = () => {
@@ -34,6 +35,9 @@ const closeBigPicture = () => {
       document.body.classList.remove('modal-open');
       commentsOfPhoto.innerHTML = '';
     }
+  },
+  {
+    once: true
   });
 };
 
@@ -41,12 +45,34 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
   bigPicture.querySelector('.big-picture__img img').src = thumbnail.querySelector('img').src;
   bigPicture.querySelector('.social__caption').textContent = description;
   bigPicture.querySelector('.likes-count').textContent = likes;
-  bigPicture.querySelector('.comments-count').textContent = thumbnail.querySelector('.picture__comments').textContent;
-  comments.forEach((comment) => {
+  comments.slice(0, 5), forEach ((comment) => {
     const newComment = createCommentBigPhoto(comment);
     commentsOfPhoto.append(newComment);
   });
-  openBigPicture();
+  sumOfComments.textContent = `${commentsOfPhoto.querySelectorAll('li').length} из ${comments.length} комментариев`;
+
+  if (commentsOfPhoto.querySelectorAll('li').length === comments.length) {
+    commentsLoader.classList.add('hidden');
+  }
+
+  let commentCurrentMinLength = 5;
+  let commentCurrentMaxLength = 10;
+
+  const commentLoader = () => {
+    comments.slice(commentCurrentMinLength, commentCurrentMaxLength).forEach((comment) => {
+      const newComment = createCommentBigPhoto(comment);
+      commentsOfPhoto.append(newComment);
+    });
+    commentCurrentMinLength+=5;
+    commentCurrentMaxLength+=5;
+    if (commentsOfPhoto.querySelectorAll('li').length === comments.length) {
+      commentsLoader.classList.add('hidden');
+    }
+    sumOfComments.textContent = `${commentsOfPhoto.querySelectorAll('li').length} из ${comments.length} комментариев`;
+  };
+
+  commentsLoader.addEventListener('click', commentLoader());
+
   closeBigPicture();
 };
 
