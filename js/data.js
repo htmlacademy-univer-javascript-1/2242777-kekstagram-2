@@ -1,4 +1,4 @@
-import { getRandomInt, randomUniqNumber } from './util.js';
+import { getRandomInt, randomUniqNumber, getRandomElement } from './util.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -21,7 +21,7 @@ const NAMES = [
   'Совунья'
 ];
 
-const getRandomElement = (arr) => arr[getRandomInt(1, arr.length - 1)];
+
 
 const generateId = randomUniqNumber(1, 25);
 const generatePhotoId = randomUniqNumber(1, 25);
