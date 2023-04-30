@@ -21,8 +21,6 @@ const NAMES = [
   'Совунья'
 ];
 
-
-
 const generateId = randomUniqNumber(1, 25);
 const generatePhotoId = randomUniqNumber(1, 25);
 const generateCommentId = randomUniqNumber(1, 300);
