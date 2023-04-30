@@ -55,7 +55,7 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
   let commentCurrentMinLength = 5;
   let commentCurrentMaxLength = 10;
 
-  const commentLoader = () => {
+  commentsLoader.addEventListener('click', () => {
     comments.slice(commentCurrentMinLength, commentCurrentMaxLength).forEach((comment) => {
       const newComment = createCommentBigPhoto(comment);
       commentsOfPhoto.append(newComment);
@@ -66,9 +66,7 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
       commentsLoader.classList.add('hidden');
     }
     sumOfComments.textContent = `${commentsOfPhoto.querySelectorAll('li').length} из ${comments.length} комментариев`;
-  };
-
-  commentsLoader.addEventListener('click', commentLoader());
+  });
 
   closeBigPicture();
 };
