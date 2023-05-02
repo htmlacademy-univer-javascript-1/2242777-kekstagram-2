@@ -21,8 +21,7 @@ const createThumbnails = (descriptions) => {
       createBigPhoto(thumbnail, numberOfLikes.textContent, photo.comments, photo.description);
     });
   });
-  picturesModule.append(photosFragment);
-  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+
 };
 
 export{createThumbnails};
