@@ -1,10 +1,13 @@
-import {createThumbnail} from './thumbnails.js';
-
-const getData = () => {
+const getData = (callback) => {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
-    .then((response) => response.json())
-    .then((photoDescription) => {
-      createThumbnail(photoDescription);
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((datas) => {
+      callback(datas);
     });
 };
 
