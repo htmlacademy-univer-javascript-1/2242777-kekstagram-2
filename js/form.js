@@ -7,7 +7,7 @@ import {sendData} from './server.js';
 const re = /^((#[A-Za-zА-Яа-яЁё0-9]{1,19})\s*|)+$$/;
 const MAX_HASHTAG_COUNT = 5;
 
-const formOpenButton = document.querySelector('.img-upload__label');
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const uploadForm = document.querySelector('.img-upload__form');
 const formCloseButton = uploadForm.querySelector('.img-upload__cancel');
 const editingForm = uploadForm.querySelector('.img-upload__overlay');
@@ -18,10 +18,15 @@ const errorTemplate = document.querySelector('#error').content.querySelector('se
 const successTemplate = document.querySelector('#success').content.querySelector('section');
 const submitButton = document.querySelector('.img-upload__submit');
 
-const openFormSettingsHundler = (evt) => {
-  evt.preventDefault();
-  document.body.classList.add('modal-open');
-  editingForm.classList.remove('hidden');
+const openFormSettingsHundler = () => {
+  const file = uploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    imgPreview.querySelector('img').src = URL.createObjectURL(file);
+    document.body.classList.add('modal-open');
+    editingForm.classList.remove('hidden');
+  }
 };
 
 const closeEditingForm = () => {
@@ -58,10 +63,11 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
-const showMessage = (template) => {
+const showMessage = (template, buttonClass, cb) => {
   const message = template.cloneNode(true);
   const removeErrorMessage = () => {
     document.body.removeChild(message);
+    cb();
   };
 
   const windowRemoveHundler = () => {
@@ -77,6 +83,7 @@ const showMessage = (template) => {
       }}
   }
 
+  editingForm.classList.add('hidden');
   document.body.append(message);
   window.addEventListener('click', windowRemoveHundler, {once: true});
 
@@ -84,7 +91,7 @@ const showMessage = (template) => {
     evt.stopPropagation();
   });
 
-  message.querySelector('.error__button').addEventListener('click', () => {
+  message.querySelector(buttonClass).addEventListener('click', () => {
     removeErrorMessage();
     window.removeEventListener('click', windowRemoveHundler);
     document.removeEventListener('keydown', escRemoveHundler);
@@ -95,14 +102,14 @@ const showMessage = (template) => {
 };
 
 const showSuccesForm = () => {
-  showMessage(successTemplate);
-  closeEditingForm();
+  showMessage(successTemplate, '.success__button', () => closeEditingForm());
 };
 
 const showErrorForm = () => {
-  editingForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  showMessage(errorTemplate);
+  showMessage(errorTemplate, '.error__button', () => {
+    editingForm.classList.remove('hidden');
+  });
 };
 
 const pristine = new Pristine(uploadForm, {
@@ -147,7 +154,7 @@ const setUserFormSubmit = () => {
 };
 
 const openForm = () => {
-  formOpenButton.addEventListener('click', openFormSettingsHundler);
+  uploadInput.addEventListener('change', openFormSettingsHundler);
 
   hashtags.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
