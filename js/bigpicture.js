@@ -22,22 +22,6 @@ const openBigPicture = () => {
   commentsLoader.classList.remove('hidden');
 };
 
-const closeBigPicture = () => {
-  bigPictureCloseButton.addEventListener ('click', () => {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-    commentsOfPhoto.innerHTML = '';
-  });
-
-  document.addEventListener('keydown', (evt)=> {
-    if (isEscapeKey(evt)) {
-      bigPicture.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-      commentsOfPhoto.innerHTML = '';
-    }
-  }, {once: true});
-};
-
 const createBigPhoto = (thumbnail, likes, comments, description) => {
   openBigPicture();
   bigPicture.querySelector('.big-picture__img img').src = thumbnail.querySelector('img').src;
@@ -54,7 +38,7 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
     commentsLoader.classList.add('hidden');
   }
 
-  let commentCurrentMinLength = 5;
+  let CurrentMinLength = 5;
   let commentCurrentMaxLength = 10;
 
   commentsLoader.addEventListener('click', () => {
@@ -62,15 +46,31 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
       const newComment = createCommentBigPhoto(comment);
       commentsOfPhoto.append(newComment);
     });
-    commentCurrentMinLength+=5;
+    CurrentMinLength+=5;
     commentCurrentMaxLength+=5;
     if (commentsOfPhoto.querySelectorAll('li').length === comments.length) {
       commentsLoader.classList.add('hidden');
     }
     sumOfComments.textContent = `${commentsOfPhoto.querySelectorAll('li').length} из ${comments.length} комментариев`;
+  };
+
+  commentsLoader.addEventListener('click', commentsLoadHandler);
+
+  bigPictureCloseButton.addEventListener ('click', () => {
+    bigPicture.classList.add('hidden');
+    document.body.classList.remove('modal-open');
+    commentsOfPhoto.innerHTML = '';
+    commentsLoader.removeEventListener('click', commentsLoadHandler);
   });
 
-  closeBigPicture();
+  document.addEventListener('keydown', (evt)=> {
+    if (isEscapeKey(evt)) {
+      bigPicture.classList.add('hidden');
+      document.body.classList.remove('modal-open');
+      commentsOfPhoto.innerHTML = '';
+      commentsLoader.removeEventListener('click', commentsLoadHandler);
+    }
+  }, {once: true});
 };
 
 export {createBigPhoto};

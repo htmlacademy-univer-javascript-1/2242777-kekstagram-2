@@ -1,64 +1,56 @@
-const effectButtons = document.querySelectorAll('.effects__radio');
-const imgPreview = document.querySelector('.img-upload__preview');
-const sliderElement = document.querySelector('.effect-level__slider');
-const valueElement = document.querySelector('.effect-level__value');
-const slider = document.querySelector('.img-upload__effect-level');
+import {shuffle} from './util.js';
+import {createThumbnails} from './thumbnails.js';
 
-valueElement.value = 100;
+const MAX_RANDOM_PHOTO_LENGTH = 10;
+const defaultFilterButton = document.getElementById('filter-default');
+const randomFilterButton = document.getElementById('filter-random');
+const discussedFilterButton = document.getElementById('filter-discussed');
 
-const filtersInfo = {
-  none: [0, 100, 1, '', ''],
-  chrome: [0, 1, 0.1, 'grayscale', ''],
-  sepia: [0, 1, 0.1, 'sepia', ''],
-  marvin: [0, 100, 1, 'invert', '%'],
-  phobos: [0, 3, 0.1, 'blur', 'px'],
-  heat: [0, 3, 0.1, 'brightness', '']
-};
-
-const filterOptions = (filterName, filterInfo) => {
-  slider.style.display = 'block';
-  imgPreview.classList.add(`effects__preview--${filterName}`);
-
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: filterInfo[0],
-      max: filterInfo[1],
-    },
-    start: filterInfo[1],
-    step: filterInfo[2],
-  });
-
-  if (filterName !== 'none') {
-    imgPreview.style.filter = `${filterInfo[3]}(${filterInfo[1] + filterInfo[4]})`;
-  }
-
-  sliderElement.noUiSlider.on('update', () => {
-    valueElement.value = sliderElement.noUiSlider.get();
-    imgPreview.style.filter = `${filterInfo[3]}(${valueElement.value + filterInfo[4]})`;
+const removeThumbnails = () => {
+  const thumbnailsList = document.querySelectorAll('.picture');
+  thumbnailsList.forEach((element) => {
+    element.remove();
   });
 };
 
-const filterEditor = () => {
-  noUiSlider.create(sliderElement, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 1,
-  });
-  valueElement.value = sliderElement.noUiSlider.get();
-  effectButtons.forEach((effectButton) => {
-    effectButton.addEventListener('change', () => {
-      imgPreview.classList = ['img-upload__preview'];
-      const filterName = effectButton.value;
-      filterOptions(filterName, filtersInfo[filterName]);
-      if (imgPreview.classList.contains('effects__preview--none')) {
-        slider.style.display = 'none';
-        imgPreview.style.filter = '';
-      }
-    });
+const compareThumbnails = (a, b) =>  b.comments.length - a.comments.length;
+
+const filterByDefault = (thumbnails) => {
+  defaultFilterButton.addEventListener('click', () => {
+    removeThumbnails();
+    discussedFilterButton.classList.remove('img-filters__button--active');
+    randomFilterButton.classList.remove('img-filters__button--active');
+    defaultFilterButton.classList.add('img-filters__button--active');
+    createThumbnails(thumbnails);
   });
 };
 
-export {filterEditor, slider};
+const filterRandom = (thumbnails) => {
+  randomFilterButton.addEventListener('click', () => {
+    removeThumbnails();
+    discussedFilterButton.classList.remove('img-filters__button--active');
+    defaultFilterButton.classList.remove('img-filters__button--active');
+    randomFilterButton.classList.add('img-filters__button--active');
+    const randomPhotoList = shuffle(thumbnails);
+    createThumbnails(randomPhotoList.slice(0, MAX_RANDOM_PHOTO_LENGTH));
+  });
+};
+
+const filterDiscussed = (thumbnails) => {
+  discussedFilterButton.addEventListener('click', () => {
+    removeThumbnails();
+    randomFilterButton.classList.remove('img-filters__button--active');
+    defaultFilterButton.classList.remove('img-filters__button--active');
+    discussedFilterButton.classList.add('img-filters__button--active');
+    const newArray = thumbnails.slice();
+    createThumbnails(newArray.sort(compareThumbnails));
+  });
+};
+
+const imageFiltering = (thumbnails) => {
+  filterByDefault(thumbnails);
+  filterRandom(thumbnails);
+  filterDiscussed(thumbnails);
+};
+
+export {imageFiltering};

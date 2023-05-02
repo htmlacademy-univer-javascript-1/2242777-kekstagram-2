@@ -6,7 +6,7 @@ picturesModule.querySelector('.pictures__title').classList.remove('visually-hidd
 
 const photoThumbnailTemplate = document.querySelector('#picture').content.querySelector('a');
 const photosFragment = document.createDocumentFragment();
-const createThumbnail = (descriptions) => {
+const createThumbnails = (descriptions) => {
   descriptions.forEach((photo) => {
     const thumbnail = photoThumbnailTemplate.cloneNode(true);
     const numberOfComments = thumbnail.querySelector('.picture__comments');
@@ -22,6 +22,7 @@ const createThumbnail = (descriptions) => {
     });
   });
   picturesModule.append(photosFragment);
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 
-export{createThumbnail};
+export{createThumbnails};

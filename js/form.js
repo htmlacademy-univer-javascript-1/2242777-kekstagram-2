@@ -18,7 +18,7 @@ const errorTemplate = document.querySelector('#error').content.querySelector('se
 const successTemplate = document.querySelector('#success').content.querySelector('section');
 const submitButton = document.querySelector('.img-upload__submit');
 
-const openFormSettings = (evt) => {
+const openFormSettingsHundler = (evt) => {
   evt.preventDefault();
   document.body.classList.add('modal-open');
   editingForm.classList.remove('hidden');
@@ -51,12 +51,11 @@ const addHandlersToCloseForm = () => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = 'Отправляю...';
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = 'Сохранить';
+  submitButton.textContent = 'Опубликовать';
 };
 
 const showMessage = (template) => {
@@ -65,15 +64,15 @@ const showMessage = (template) => {
     document.body.removeChild(message);
   };
 
-  const windowRemove = () => {
+  const windowRemoveHundler = () => {
     removeErrorMessage();
-    document.removeEventListener('keydown', escRemove);
+    document.removeEventListener('keydown', escRemoveHundler);
   };
 
   function escRemove(evt) {
     if (message.parentNode) {
       if (isEscapeKey(evt)) {
-        window.removeEventListener('click', windowRemove);
+        window.removeEventListener('click', windowRemoveHundler);
         removeErrorMessage();
       }}
   }
@@ -87,20 +86,20 @@ const showMessage = (template) => {
 
   message.querySelector('.error__button').addEventListener('click', () => {
     removeErrorMessage();
-    window.removeEventListener('click', windowRemove);
-    document.removeEventListener('keydown', escRemove);
+    window.removeEventListener('click', windowRemoveHundler);
+    document.removeEventListener('keydown', escRemoveHundler);;
   });
 
-  document.addEventListener('keydown', escRemove, {once: true});
+  document.addEventListener('keydown', escRemoveHundler, {once: true});
   unblockSubmitButton();
 };
 
-const closeSuccesForm = () => {
+const showSuccesForm = () => {
   showMessage(successTemplate);
   closeEditingForm();
 };
 
-const closeErrorForm = () => {
+const showErrorForm = () => {
   editingForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
   showMessage(errorTemplate);
@@ -142,13 +141,13 @@ const setUserFormSubmit = () => {
     if (isValid) {
       blockSubmitButton();
       const formData = new FormData(evt.target);
-      sendData(closeSuccesForm, closeErrorForm, formData);
+      sendData(showSuccesForm, showErrorForm, formData);
     }
   });
 };
 
 const openForm = () => {
-  formOpenButton.addEventListener('click', openFormSettings);
+  formOpenButton.addEventListener('click', openFormSettingsHundler);
 
   hashtags.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
