@@ -41,8 +41,8 @@ const createBigPhoto = (thumbnail, likes, comments, description) => {
   let CurrentMinLength = 5;
   let commentCurrentMaxLength = 10;
 
-  commentsLoader.addEventListener('click', () => {
-    comments.slice(commentCurrentMinLength, commentCurrentMaxLength).forEach((comment) => {
+  const commentsLoadHandler = () => {
+    comments.slice(CurrentMinLength, commentCurrentMaxLength).forEach((comment) => {
       const newComment = createCommentBigPhoto(comment);
       commentsOfPhoto.append(newComment);
     });

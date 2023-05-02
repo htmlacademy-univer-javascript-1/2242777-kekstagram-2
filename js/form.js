@@ -1,6 +1,6 @@
 import {isEscapeKey} from './util.js';
 import {imgPreview} from './zoom.js';
-import {slider, filterEditor} from './filter.js';
+import {slider, filterEditor} from './filter-editor.js';
 import {sendData} from './server.js';
 
 /*Валидация формы*/
@@ -69,7 +69,7 @@ const showMessage = (template) => {
     document.removeEventListener('keydown', escRemoveHundler);
   };
 
-  function escRemove(evt) {
+  function escRemoveHundler(evt) {
     if (message.parentNode) {
       if (isEscapeKey(evt)) {
         window.removeEventListener('click', windowRemoveHundler);
