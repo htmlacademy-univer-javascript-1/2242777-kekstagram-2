@@ -1,15 +1,14 @@
 const getData = (callback) => {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-
-    throw new Error(`${response.status} ${response.statusText}`);
-  })
-  .then((datas) => {
-    callback(datas);
-  });
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`${response.status} ${response.statusText}`);
+    })
+    .then((datas) => {
+      callback(datas);
+    });
 };
 
 const sendData = (onSuccess, onFail, body) => {
