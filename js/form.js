@@ -78,7 +78,7 @@ const showMessage = (template) => {
   }
 
   document.body.append(message);
-  window.addEventListener('click', windowRemove, {once: true});
+  window.addEventListener('click', windowRemoveHundler, {once: true});
 
   message.querySelector('div').addEventListener('click', (evt) => {
     evt.stopPropagation();
@@ -87,7 +87,7 @@ const showMessage = (template) => {
   message.querySelector('.error__button').addEventListener('click', () => {
     removeErrorMessage();
     window.removeEventListener('click', windowRemoveHundler);
-    document.removeEventListener('keydown', escRemoveHundler);;
+    document.removeEventListener('keydown', escRemoveHundler);
   });
 
   document.addEventListener('keydown', escRemoveHundler, {once: true});
