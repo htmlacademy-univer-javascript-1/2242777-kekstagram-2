@@ -1,4 +1,4 @@
-import {shuffle} from './util.js';
+import {shuffle, debounce} from './util.js';
 import {createThumbnails} from './thumbnails.js';
 
 const MAX_RANDOM_PHOTO_LENGTH = 10;
@@ -15,42 +15,49 @@ const removeThumbnails = () => {
 
 const compareThumbnails = (a, b) =>  b.comments.length - a.comments.length;
 
-const filterByDefault = (thumbnails) => {
+const filterByDefault =  (cb) => {
   defaultFilterButton.addEventListener('click', () => {
     removeThumbnails();
     discussedFilterButton.classList.remove('img-filters__button--active');
     randomFilterButton.classList.remove('img-filters__button--active');
     defaultFilterButton.classList.add('img-filters__button--active');
-    createThumbnails(thumbnails);
+    cb();
   });
 };
 
-const filterRandom = (thumbnails) => {
+const filterRandom = (cb) => {
   randomFilterButton.addEventListener('click', () => {
     removeThumbnails();
     discussedFilterButton.classList.remove('img-filters__button--active');
     defaultFilterButton.classList.remove('img-filters__button--active');
     randomFilterButton.classList.add('img-filters__button--active');
-    const randomPhotoList = shuffle(thumbnails);
-    createThumbnails(randomPhotoList.slice(0, MAX_RANDOM_PHOTO_LENGTH));
+    cb();
   });
 };
 
-const filterDiscussed = (thumbnails) => {
+const filterDiscussed = (thumbnails, cb) => {
   discussedFilterButton.addEventListener('click', () => {
     removeThumbnails();
     randomFilterButton.classList.remove('img-filters__button--active');
     defaultFilterButton.classList.remove('img-filters__button--active');
     discussedFilterButton.classList.add('img-filters__button--active');
-    const newArray = thumbnails.slice();
-    createThumbnails(newArray.sort(compareThumbnails));
+    cb();
   });
 };
 
 const imageFiltering = (thumbnails) => {
-  filterByDefault(thumbnails);
-  filterRandom(thumbnails);
-  filterDiscussed(thumbnails);
+  filterByDefault(thumbnails, debounce(() => createThumbnails(thumbnails)));
+
+  filterRandom(thumbnails, debounce(() => {
+    const randomPhotoList = shuffle(thumbnails);
+    createThumbnails(randomPhotoList.slice(0, MAX_RANDOM_PHOTO_LENGTH));
+  }));
+
+  filterDiscussed(thumbnails, debounce(() => {
+    const newArray = thumbnails.slice();
+    createThumbnails(newArray.sort(compareThumbnails));
+  })
+  );
 };
 
 export {imageFiltering};

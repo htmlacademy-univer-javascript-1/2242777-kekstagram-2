@@ -32,9 +32,10 @@ const openFormSettingsHundler = () => {
 const closeEditingForm = () => {
   editingForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  uploadInput.innerHTML = '';
+  uploadInput.value = '';
   hashtags.value = '';
   photoComment.value = '';
+  scaleValue.value = '100%';
   imgPreview.style.transform = 'scale(1)';
   imgPreview.classList = ['img-upload__preview'];
   imgPreview.style.filter = '';
