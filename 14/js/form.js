@@ -17,6 +17,7 @@ const photoComment = uploadForm.querySelector('.text__description');
 const errorTemplate = document.querySelector('#error').content.querySelector('section');
 const successTemplate = document.querySelector('#success').content.querySelector('section');
 const submitButton = document.querySelector('.img-upload__submit');
+const scaleValue = document.querySelector('.scale__control--value');
 
 const openFormSettingsHundler = () => {
   const file = uploadInput.files[0];
@@ -32,9 +33,10 @@ const openFormSettingsHundler = () => {
 const closeEditingForm = () => {
   editingForm.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  uploadInput.innerHTML = '';
+  uploadInput.value = '';
   hashtags.value = '';
   photoComment.value = '';
+  scaleValue.value = '100%';
   imgPreview.style.transform = 'scale(1)';
   imgPreview.classList = ['img-upload__preview'];
   imgPreview.style.filter = '';
