@@ -17,6 +17,7 @@ const photoComment = uploadForm.querySelector('.text__description');
 const errorTemplate = document.querySelector('#error').content.querySelector('section');
 const successTemplate = document.querySelector('#success').content.querySelector('section');
 const submitButton = document.querySelector('.img-upload__submit');
+const scaleValue = document.querySelector('.scale__control--value');
 
 const openFormSettingsHundler = () => {
   const file = uploadInput.files[0];
